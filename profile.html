@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SkillSwap | Profile</title>
   <style>
     body {
@@ -82,10 +82,7 @@
       font-weight: 500;
     }
 
-    /* Course form adjustments */
-    #courseForm {
-      display: none;
-    }
+    #courseForm { display: none; }
   </style>
 </head>
 <body>
@@ -119,55 +116,76 @@
   <script>
     let userId = localStorage.getItem("userId");
     const profileInfo = document.getElementById("profileInfo");
+    const profileForm = document.getElementById("profileForm");
+    const courseForm = document.getElementById("courseForm");
 
-    if (userId) {
-      profileInfo.textContent = "✅ You are logged in with UserID: " + userId;
-      document.getElementById("courseForm").style.display = "block";
-      document.getElementById("profileForm").style.display = "none";
+    function setLoggedIn(username) {
+      profileInfo.textContent = "✅ Logged in as " + username;
+      courseForm.style.display = "block";
+      profileForm.style.display = "none";
     }
 
-    document.getElementById("profileForm").addEventListener("submit", async (e) => {
+    // If already logged in
+    if (userId) {
+      profileInfo.textContent = "✅ You are logged in (User ID: " + userId + ")";
+      courseForm.style.display = "block";
+      profileForm.style.display = "none";
+    }
+
+    // Profile creation
+    profileForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const res = await fetch("http://localhost:3000/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: document.getElementById("username").value,
-          bio: document.getElementById("bio").value,
-          skills: document.getElementById("skills").value.split(",").map(s => s.trim()),
-        }),
-      });
-      const data = await res.json();
-      if (data.id) {
-        userId = data.id;
-        localStorage.setItem("userId", userId);
-        
-        profileInfo.textContent = "✅ You are logged in as " + data.username;
-        document.getElementById("courseForm").style.display = "block";
-        document.getElementById("profileForm").style.display = "none";
-      } else {
-        alert("Error creating profile!");
+      try {
+        const res = await fetch("http://localhost:3000/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: document.getElementById("username").value.trim(),
+            bio: document.getElementById("bio").value.trim(),
+            skills: document.getElementById("skills").value
+              .split(",")
+              .map(s => s.trim())
+              .filter(Boolean),
+          }),
+        });
+        const data = await res.json();
+        if (data.id) {
+          userId = data.id;
+          localStorage.setItem("userId", userId);
+          alert("Profile created for " + data.username);
+          setLoggedIn(data.username);
+        } else {
+          alert("❌ Error: " + (data.error || "Could not create profile"));
+        }
+      } catch (err) {
+        alert("❌ Network error: " + err.message);
       }
     });
 
-    document.getElementById("courseForm").addEventListener("submit", async (e) => {
+    // Course creation
+    courseForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!userId) return alert("Create profile first!");
-      const res = await fetch("http://localhost:3000/api/course", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId,
-          title: document.getElementById("title").value,
-          desc: document.getElementById("desc").value,
-          image: document.getElementById("image").value,
-        }),
-      });
-      const course = await res.json();
-      if (course.id) {
-        document.getElementById("courseForm").reset();
-      } else {
-        alert("Error adding course!");
+      try {
+        const res = await fetch("http://localhost:3000/api/course", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            title: document.getElementById("title").value.trim(),
+            desc: document.getElementById("desc").value.trim(),
+            image: document.getElementById("image").value.trim(),
+          }),
+        });
+        const course = await res.json();
+        if (course.id) {
+          alert("✅ Course added: " + course.title);
+          courseForm.reset();
+        } else {
+          alert("❌ Error: " + (course.error || "Could not add course"));
+        }
+      } catch (err) {
+        alert("❌ Network error: " + err.message);
       }
     });
   </script>
