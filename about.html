@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - SkillSwap</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #faf6fb;
+      color: #333;
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #e6c7f0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      border-radius: 0 0 20px 20px;
+      z-index: 100;
+    }
+    nav .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #c777b9, #f3d1f4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    nav ul li a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #6b4a8f;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
+    nav ul li a:hover {
+      background: #f3d1f4;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about {
+      padding: 5rem 2rem;
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
+      background: #fff;
+      border-radius: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      margin-top: 3rem;
+    }
+    .about h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #6b4a8f;
+    }
+    .about p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: #555;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #f3d1f4;
+      color: #6b4a8f;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 3rem;
+      border-top-left-radius: 40px;
+      border-top-right-radius: 40px;
+    }
+    footer a {
+      color: #6b4a8f;
+      text-decoration: none;
+      margin: 0 0.7rem;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:768px) {
+      .about h1 { font-size: 2.2rem; }
+      .about p { font-size: 1rem; }
+    }
+    @media(max-width:480px) {
+      nav { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">SkillSwap</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="marketplace.html">Marketplace</a></li>
+      <li><a href="profile.html">Profile</a></li>
+    </ul>
+  </nav>
+
+  <section class="about">
+    <h1>About SkillSwap</h1>
+    <p>SkillSwap is built on a simple idea: knowledge is currency. Here, you don’t pay with money, you pay with your skills.</p>
+    <p>Whether you’re a coder looking to learn guitar, or a chef wanting to understand 3D design, SkillSwap makes it possible. Connect directly with creators and learners, exchange skills, and grow together.</p>
+    <p>This platform is a step towards a world where learning is open, community-driven, and beautifully balanced.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 SkillSwap | <a href="index.html">Home</a></p>
+  </footer>
+</body>
+</html>

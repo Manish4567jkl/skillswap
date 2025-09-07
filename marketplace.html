@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSwap | Marketplace</title>
+  <style>
+    /* ===== RESET ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #faf6fb;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #d6b0f5;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-radius: 0 0 20px 20px;
+    }
+    nav .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #c777b9, #f3d1f4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    nav .nav-links a {
+      margin-left: 1rem;
+      text-decoration: none;
+      color: #6b4a8f;
+      font-weight: 600;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
+    nav .nav-links a:hover {
+      background: #f3d1f4;
+    }
+
+    /* ===== HERO ===== */
+    .marketplace-hero {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, #d6b0f5, #f3d1f4);
+      color: #4b2e6b;
+      border-bottom-left-radius: 60px;
+      border-bottom-right-radius: 60px;
+    }
+    .marketplace-hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+    .marketplace-hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    /* ===== COURSES ===== */
+    .courses {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .course-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .course-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    .course-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .course-card img:hover {
+      transform: scale(1.05);
+    }
+    .course-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .course-content h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+      color: #6b4a8f;
+    }
+    .course-content p {
+      flex-grow: 1;
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    .course-creator {
+      font-size: 0.9rem;
+      color: #999;
+      margin-bottom: 1rem;
+    }
+    .contact-btn {
+      background: linear-gradient(135deg, #c777b9, #f3d1f4);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .contact-btn:hover {
+      background: linear-gradient(135deg, #f3d1f4, #c777b9);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    /* ===== CHAT MODAL ===== */
+    .chat-modal { 
+      position: fixed; inset: 0; 
+      background: rgba(0,0,0,0.5); 
+      display: flex; align-items: center; justify-content: center; 
+      visibility: hidden; opacity: 0; 
+      transition: opacity 0.3s; z-index: 200; 
+    }
+    .chat-modal.active { visibility: visible; opacity: 1; }
+    .chat-box { 
+      background: #fff; border-radius: 20px; width: 400px; max-width: 90%; 
+      display: flex; flex-direction: column; overflow: hidden; 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25); 
+    }
+    .chat-header { 
+      background: linear-gradient(135deg, #c777b9, #f3d1f4); 
+      color: #fff; padding: 1rem; font-weight: bold; 
+      display: flex; justify-content: space-between; 
+      align-items: center; 
+    }
+    .chat-messages { padding: 1rem; height: 250px; overflow-y: auto; background: #faf6fb; }
+    .chat-messages .msg { margin-bottom: 0.8rem; padding: 0.6rem 1rem; border-radius: 12px; max-width: 70%; }
+    .msg.me { background: #c777b9; color: #fff; margin-left: auto; }
+    .msg.them { background: #e1d4ed; color: #333; margin-right: auto; }
+    .chat-input { display: flex; border-top: 1px solid #ddd; }
+    .chat-input input { flex: 1; border: none; padding: 0.8rem; font-size: 1rem; border-radius: 0 0 0 20px; }
+    .chat-input button { background: #c777b9; color: #fff; border: none; padding: 0 1rem; cursor: pointer; border-radius: 0 0 20px 0; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #f3d1f4;
+      margin-top: 3rem;
+      border-top-left-radius: 40px;
+      border-top-right-radius: 40px;
+      color: #6b4a8f;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:768px) {
+      .marketplace-hero h1 { font-size: 2rem; }
+      .marketplace-hero p { font-size: 1rem; }
+    }
+    @media(max-width:480px) {
+      nav { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .course-card { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">SkillSwap</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="marketplace.html">Marketplace</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </nav>
+
+  <section class="marketplace-hero">
+    <h1>Explore the Marketplace</h1>
+    <p>Find courses and creators. Swap your skills and start learning today!</p>
+  </section>
+
+  <section class="courses" id="coursesContainer">
+    <!-- Courses will be injected here -->
+  </section>
+
+  <!-- Chat modal -->
+  <div class="chat-modal" id="chatModal">
+    <div class="chat-box">
+      <div class="chat-header">
+        <span id="chatWith">Chat</span>
+        <button onclick="closeChat()" style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;">✖</button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type a message..."/>
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 SkillSwap. Learn & Teach Together.</p>
+  </footer>
+
+  <script>
+    const coursesContainer = document.getElementById("coursesContainer");
+    const modal = document.getElementById('chatModal');
+    const chatWith = document.getElementById('chatWith');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    let ws;
+
+    async function loadCourses() {
+      const res = await fetch("http://localhost:3000/api/courses");
+      const data = await res.json();
+      coursesContainer.innerHTML = "";
+      data.forEach(course => {
+        const div = document.createElement("div");
+        div.className = "course-card";
+        div.innerHTML = `
+          <img src="${course.image || "https://source.unsplash.com/400x300/?learning"}" alt="${course.title}">
+          <div class="course-content">
+            <h3>${course.title}</h3>
+            <p>${course.desc}</p>
+            <span class="course-creator">By ${course.creator}</span>
+            <button class="contact-btn" data-room="${course.id}" data-creator="${course.creator}">Contact Creator</button>
+          </div>
+        `;
+        coursesContainer.appendChild(div);
+      });
+
+      document.querySelectorAll('.contact-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          chatWith.textContent = "Chat with " + btn.dataset.creator;
+          modal.classList.add('active');
+          startChat(btn.dataset.room);
+        });
+      });
+    }
+
+    function startChat(room) {
+      ws = new WebSocket("ws://localhost:3000");
+      ws.addEventListener("open", () => {
+        ws.send(JSON.stringify({ type: "join", room }));
+        appendMessage("Connected to chat ✅", "them");
+      });
+      ws.addEventListener("message", e => {
+        const data = JSON.parse(e.data);
+        if (data.type === "chat") appendMessage(data.text, "them");
+      });
+    }
+
+    function closeChat(){
+      modal.classList.remove('active');
+      chatMessages.innerHTML = "";
+      if(ws) ws.close();
+    }
+
+    function sendMessage(){
+      const text = chatInput.value.trim();
+      if(!text || !ws || ws.readyState !== WebSocket.OPEN) return;
+      appendMessage(text, 'me');
+      ws.send(JSON.stringify({ type: "chat", text }));
+      chatInput.value = "";
+    }
+
+    function appendMessage(text, who){
+      const div = document.createElement('div');
+      div.className = 'msg ' + who;
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    loadCourses();
+  </script>
+</body>
+</html>

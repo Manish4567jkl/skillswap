@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSwap | Profile</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #faf6fb;
+      color: #444;
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    nav {
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: #c26dbc;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      background: #f3d1f4;
+    }
+
+    h1, h2 {
+      color: #8b5fbf;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      background: #fff;
+      padding: 2rem;
+      margin: 2rem auto;
+      border-radius: 20px;
+      max-width: 450px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    form:hover {
+      transform: translateY(-5px);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #d9bde3;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+
+    button {
+      background: linear-gradient(135deg, #d16ba5, #c777b9);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      width: 100%;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #c777b9, #d16ba5);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .info {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #a373c7;
+      font-weight: 500;
+    }
+
+    /* Course form adjustments */
+    #courseForm {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="marketplace.html">Marketplace</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+
+  <h1>My Profile</h1>
+  <div id="profileInfo" class="info"></div>
+
+  <!-- Profile creation form -->
+  <form id="profileForm">
+    <h2>Create Profile</h2>
+    <input type="text" id="username" placeholder="Username" required />
+    <textarea id="bio" placeholder="Bio"></textarea>
+    <input type="text" id="skills" placeholder="Skills (comma separated)" />
+    <button type="submit">Save Profile</button>
+  </form>
+
+  <!-- Course creation form -->
+  <form id="courseForm">
+    <h2>Create Course</h2>
+    <input type="text" id="title" placeholder="Course title" required />
+    <textarea id="desc" placeholder="Course description"></textarea>
+    <input type="text" id="image" placeholder="Image URL (optional)" />
+    <button type="submit">Add Course</button>
+  </form>
+
+  <script>
+    let userId = localStorage.getItem("userId");
+    const profileInfo = document.getElementById("profileInfo");
+
+    if (userId) {
+      profileInfo.textContent = "✅ You are logged in with UserID: " + userId;
+      document.getElementById("courseForm").style.display = "block";
+      document.getElementById("profileForm").style.display = "none";
+    }
+
+    document.getElementById("profileForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const res = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: document.getElementById("username").value,
+          bio: document.getElementById("bio").value,
+          skills: document.getElementById("skills").value.split(",").map(s => s.trim()),
+        }),
+      });
+      const data = await res.json();
+      if (data.id) {
+        userId = data.id;
+        localStorage.setItem("userId", userId);
+        
+        profileInfo.textContent = "✅ You are logged in as " + data.username;
+        document.getElementById("courseForm").style.display = "block";
+        document.getElementById("profileForm").style.display = "none";
+      } else {
+        alert("Error creating profile!");
+      }
+    });
+
+    document.getElementById("courseForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!userId) return alert("Create profile first!");
+      const res = await fetch("http://localhost:3000/api/course", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          title: document.getElementById("title").value,
+          desc: document.getElementById("desc").value,
+          image: document.getElementById("image").value,
+        }),
+      });
+      const course = await res.json();
+      if (course.id) {
+        document.getElementById("courseForm").reset();
+      } else {
+        alert("Error adding course!");
+      }
+    });
+  </script>
+</body>
+</html>

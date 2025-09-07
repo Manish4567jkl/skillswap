@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSwap</title>
+  <style>
+    /* ===== RESET ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #faf6fb;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid #f3d1f4;
+    }
+    nav .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    nav ul li a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #555;
+      padding: 0.3rem 0.8rem;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+    nav ul li a:hover {
+      background: #f3d1f4;
+      color: #c26dbc;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+      color: #fff;
+      border-bottom-left-radius: 60px;
+      border-bottom-right-radius: 60px;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+    }
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin-bottom: 2rem;
+    }
+    .hero a {
+      display: inline-block;
+      padding: 0.9rem 1.7rem;
+      background: #fff;
+      color: #c26dbc;
+      border-radius: 20px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+    .hero a:hover {
+      transform: translateY(-3px);
+      background: #fef0ff;
+    }
+
+    /* ===== COURSES ===== */
+    .courses {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .courses h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      background: linear-gradient(90deg, #d16ba5, #86a8e7, #5ffbf1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .course-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .course {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: 0.3s;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+    .course::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 120px;
+      height: 120px;
+      background: #fbc2eb;
+      opacity: 0.3;
+      border-radius: 50%;
+      z-index: 0;
+    }
+    .course:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+    }
+    .course h3 {
+      margin-bottom: 0.6rem;
+      font-size: 1.3rem;
+      color: #c26dbc;
+      position: relative;
+      z-index: 1;
+    }
+    .course p {
+      color: #555;
+      font-size: 0.95rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+      color: #fff;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 3rem;
+      border-top-left-radius: 40px;
+      border-top-right-radius: 40px;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    }
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 0.7rem;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:768px) {
+      .hero h1 { font-size: 2.6rem; }
+      .courses h2 { font-size: 2rem; }
+    }
+    @media(max-width:480px) {
+      nav { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">SkillSwap</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="marketplace.html">Marketplace</a></li>
+      <li><a href="profile.html">Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Swap Skills. Learn Together.</h1>
+    <p>Teach what you know, learn what you don’t. Connect with creators and learners across the world — no money, just knowledge.</p>
+    <a href="marketplace.html">🌸 Explore Courses</a>
+  </section>
+
+  <!-- Courses -->
+  <section class="courses" id="courses">
+    <h2>Featured Skills</h2>
+    <div class="course-list">
+      <div class="course">
+        <h3>🎸 Learn Guitar</h3>
+        <p>Swap your cooking skills for some acoustic vibes.</p>
+      </div>
+      <div class="course">
+        <h3>🍳 Cooking Basics</h3>
+        <p>Teach your favorite recipe and learn a new craft in return.</p>
+      </div>
+      <div class="course">
+        <h3>💻 3D Creative Development</h3>
+        <p>Share your Blender wizardry while picking up new tricks.</p>
+      </div>
+      <div class="course">
+        <h3>🌍 Language Exchange</h3>
+        <p>Learn Spanish while teaching someone English or Hindi.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 SkillSwap | <a href="about.html">About</a> | <a href="index.html">Home</a></p>
+  </footer>
+</body>
+</html>
